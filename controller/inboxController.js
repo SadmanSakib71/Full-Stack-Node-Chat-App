@@ -1,7 +1,7 @@
-//get login page
+//get inbox page
 function getInbox(req, res, next) {
   res.render("inbox", {
-    title: "Login - chat application",
+    title: "Inbox - chat application",
   });
 }
 

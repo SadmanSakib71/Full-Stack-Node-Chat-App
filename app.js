@@ -42,7 +42,7 @@ app.use(cookieParser(process.env.Cookie_secret));
 
 //routing setup
 app.use("/", loginRouter);
-app.use("/login", usersRouter);
+app.use("/users", usersRouter);
 app.use("/inbox", inboxRouter);
 
 //404 error
