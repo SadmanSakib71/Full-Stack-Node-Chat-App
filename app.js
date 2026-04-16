@@ -1,8 +1,16 @@
 require("dotenv").config();
+
+//external export
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("node:path");
+
+//internal export
+const {
+  notFoundHandler,
+  errorHandler,
+} = require("./middleWares/common/errorHandler");
 
 const app = express();
 
