@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { getUsers } = require("../controller/usersController");
+const decorateHtmlResponse = require("../middleWares/common/decorateHtmlResponse");
 
 //users page
-router.get("/", getUsers);
+router.get("/", decorateHtmlResponse("Users"), getUsers);
 
 module.exports = router;
