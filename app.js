@@ -39,7 +39,11 @@ app.use(cookieParser(process.env.Cookie_secret));
 
 //routing setup
 
+//404 error
+app.use(notFoundHandler);
+
 //error handling
+app.use(errorHandler);
 
 //port run
 app.listen(process.env.Port, () => {
