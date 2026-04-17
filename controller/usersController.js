@@ -5,6 +5,7 @@ const User = require("../models/people");
 const getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
+
     res.render("users", {
       users: users,
     });
