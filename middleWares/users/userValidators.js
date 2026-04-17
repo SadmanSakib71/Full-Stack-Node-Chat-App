@@ -59,7 +59,7 @@ const addUserValidator = [
 ];
 
 //validation handler
-const addUserValidationHandler = (res, res, next) => {
+const addUserValidationHandler = (req, res, next) => {
   const errors = validationResult(req);
   const mappedErrors = errors.mapped();
 
