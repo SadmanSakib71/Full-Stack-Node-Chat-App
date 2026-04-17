@@ -1,5 +1,4 @@
 const multer = require("multer");
-const fs = require("node:fs");
 const path = require("node:path");
 const createError = require("http-errors");
 
@@ -9,13 +8,12 @@ function uploader(
   max_file_size,
   error_msg,
 ) {
-  // One level up from utilities/ → project root (../../ would escape the project)
-  const upload_folder = path.join(__dirname, "../public/uploads", subfolder_path);
+  //make the upload folder
+  const upload_folder = `${__dirname}/../public/uploads/${subfolder_path}`;
 
   //define the storage
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      fs.mkdirSync(upload_folder, { recursive: true });
       cb(null, upload_folder);
     },
 
