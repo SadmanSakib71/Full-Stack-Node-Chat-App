@@ -4,7 +4,10 @@ const User = require("../models/people");
 //get users page
 const getUsers = async (req, res, next) => {
   try {
-    res.render("users");
+    const users = await User.find();
+    res.render("users", {
+      users: users,
+    });
   } catch (error) {
     next(error);
   }
