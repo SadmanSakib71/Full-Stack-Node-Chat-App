@@ -6,4 +6,7 @@ const decorateHtmlResponse = require("../middleWares/common/decorateHtmlResponse
 //users page
 router.get("/", decorateHtmlResponse("Users"), getUsers);
 
+//add user
+router.post;
+
 module.exports = router;
