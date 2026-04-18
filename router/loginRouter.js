@@ -6,12 +6,16 @@ const {
   doLoginValidators,
   doLoginValidationHandler,
 } = require("../middleWares/login/loginValidators");
+const {
+  checkLogin,
+  redirectLoggedIn,
+} = require("../middleWares/common/checkLogIn");
 
 //set page title
 const page_title = "Login";
 
 //login page
-router.get("/", decorateHtmlResponse(page_title), getLogIN);
+router.get("/", decorateHtmlResponse(page_title), redirectLoggedIn, getLogIN);
 
 //process login
 router.post(
