@@ -5,7 +5,11 @@ const createError = require("http-errors");
 
 //get login page
 function getLogIN(req, res, next) {
-  res.render("login");
+  res.render("login", {
+    data: {
+      username: "",
+    },
+  });
 }
 
 //do login
@@ -64,7 +68,7 @@ const login = async (req, res, next) => {
       },
       errors: {
         common: {
-          msg: err.message,
+          msg: error.message,
         },
       },
     });
