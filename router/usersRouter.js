@@ -6,6 +6,7 @@ const {
   removeUser,
 } = require("../controller/usersController");
 const decorateHtmlResponse = require("../middleWares/common/decorateHtmlResponse");
+const { checkLogin } = require("../middleWares/common/checkLogIn");
 const avatarUpload = require("../middleWares/users/avatarUpload");
 const {
   addUserValidator,
@@ -13,7 +14,7 @@ const {
 } = require("../middleWares/users/userValidators");
 
 //users page
-router.get("/", decorateHtmlResponse("Users"), getUsers);
+router.get("/", decorateHtmlResponse("Users"), checkLogin, getUsers);
 
 //add user
 router.post(
