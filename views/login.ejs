@@ -14,10 +14,9 @@
             placeholder="enter mobile or email"
             value="<%= data.username %>"
           />
-               <% if (errors.username) { %>
+          <% if (errors.username) { %>
             <p class="error show"><%= errors.username.msg %></p>
           <% } %>
-
           <input type="password" name="password" placeholder="enter password" />
           <% if (errors.password) { %>
             <p class="error show"><%= errors.password.msg %></p>
@@ -26,7 +25,6 @@
           <% if (errors.common) { %>
             <p class="error show"><%= errors.common.msg %></p>
           <% } %>
-
           <input type="submit" value="Login" />
         </form>
       </div>

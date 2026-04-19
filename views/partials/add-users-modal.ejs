@@ -6,10 +6,10 @@
     </div>
     <div class="modal-body">
       <form
-        id="add-user-form"
         method="post"
         action="/users"
         enctype="multipart/form-data"
+        id="add-user-form"
       >
         <input type="text" placeholder="enter name" name="name" />
         <p class="error name-error"></p>
@@ -50,7 +50,7 @@
     modal.style.display = "block";
   }
 
-  //form submit handler
+  // form submit handler
   form.onsubmit = async function (event) {
     event.preventDefault();
 
@@ -67,17 +67,17 @@
       }
     }
 
-    //prepare the formData
+    // prepare the form data
     const formData = new FormData(form);
 
-    //send the request to server
+    // send the request to server
     let response = await fetch("/users", {
       method: "POST",
       body: formData,
     });
 
-    //get response
-    const result = await response.json();
+    // get response
+    let result = await response.json();
 
     // handle error and response
     if (result.errors) {

@@ -1,5 +1,4 @@
 <%- include('./partials/header.ejs'); %>
-
     <div class="manageUser-container">
       <div id="title">
         <h2>Manage Users</h2>
@@ -18,16 +17,14 @@
               <th>Manage</th>
             </tr>
           </thead>
-               <tbody id="users-table">
-                
+          <tbody id="users-table">
             <% users.forEach(function(user) { %>
               <tr id="<%= user._id %>">
                 <td class="name">
                   <% if (user.avatar) { %>
-                    <img src="/uploads/avatars/<%= user.avatar %>" />
-                    
+                    <img src="./uploads/avatars/<%= user.avatar %>" />
                   <% } else { %>
-                    <img src="/images/nophoto.png" />
+                    <img src="./images/nophoto.png" />
                     <% } %>
                   <span><%= user.name %></span>
                 </td>
@@ -43,7 +40,7 @@
     </div>
     <%- include('./partials/add-users-modal.ejs'); %>
 
-        <script>
+    <script>
         // toasts
         const deleteToast = Toastify({
             text: "User was deleted successfully!",
