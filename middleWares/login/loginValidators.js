@@ -19,6 +19,7 @@ const doLoginValidationHandler = function (req, res, next) {
       data: {
         username: req.body.username,
       },
+      registered: false,
       errors: mappedErrors,
     });
   }

@@ -25,7 +25,15 @@
           <% if (errors.common) { %>
             <p class="error show"><%= errors.common.msg %></p>
           <% } %>
+          <% if (typeof registered !== "undefined" && registered) { %>
+            <p class="form-success show">
+              Account created successfully. You can log in below.
+            </p>
+          <% } %>
           <input type="submit" value="Login" />
+          <p class="auth-switch">
+            No account? <a href="/register">Register</a>
+          </p>
         </form>
       </div>
     </div>

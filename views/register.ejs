@@ -1,0 +1,52 @@
+<%- include('./partials/header.ejs'); %>
+
+    <div id="login-container" class="register-page">
+      <div id="left-column"></div>
+      <div id="branding">
+        <img src="./images/logo.png" alt="" />
+        <h1>Register - Chat Application</h1>
+      </div>
+      <div id="login-form">
+        <form
+          method="post"
+          action="/register"
+          enctype="multipart/form-data"
+        >
+          <input type="text" placeholder="enter name" name="name" value="<%= data.name %>" />
+          <% if (errors.name) { %>
+            <p class="error show"><%= errors.name.msg %></p>
+          <% } %>
+
+          <input type="text" placeholder="enter email" name="email" value="<%= data.email %>" />
+          <% if (errors.email) { %>
+            <p class="error show"><%= errors.email.msg %></p>
+          <% } %>
+
+          <input type="text" placeholder="enter mobile" name="mobile" value="<%= data.mobile %>" />
+          <% if (errors.mobile) { %>
+            <p class="error show"><%= errors.mobile.msg %></p>
+          <% } %>
+
+          <input type="password" placeholder="enter password" name="password" />
+          <% if (errors.password) { %>
+            <p class="error show"><%= errors.password.msg %></p>
+          <% } %>
+
+          <input type="file" name="avatar" />
+          <% if (errors.avatar) { %>
+            <p class="error show"><%= errors.avatar.msg %></p>
+          <% } %>
+
+          <% if (errors.common) { %>
+            <p class="error show"><%= errors.common.msg %></p>
+          <% } %>
+
+          <input type="submit" value="Submit" />
+          <p class="auth-switch">
+            Already have an account? <a href="/">Log in</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -9,8 +9,56 @@ function getLogIN(req, res, next) {
     data: {
       username: "",
     },
+    registered: req.query.registered === "1",
   });
 }
+
+// get register page
+function getRegister(req, res, next) {
+  res.render("register", {
+    data: {
+      name: "",
+      email: "",
+      mobile: "",
+    },
+  });
+}
+
+// create account (same logic as usersController.addUser)
+const registerUser = async (req, res, next) => {
+  try {
+    let newUser;
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    if (req.files && req.files.length > 0) {
+      newUser = new User({
+        ...req.body,
+        password: hashedPassword,
+        avatar: req.files[0].filename,
+      });
+    } else {
+      newUser = new User({
+        ...req.body,
+        password: hashedPassword,
+      });
+    }
+
+    await newUser.save();
+    res.redirect("/?registered=1");
+  } catch (error) {
+    res.render("register", {
+      data: {
+        name: req.body.name || "",
+        email: req.body.email || "",
+        mobile: req.body.mobile || "",
+      },
+      errors: {
+        common: {
+          msg: "Unknown error occurred",
+        },
+      },
+    });
+  }
+};
 
 //do login
 const login = async (req, res, next) => {
@@ -68,6 +116,7 @@ const login = async (req, res, next) => {
       data: {
         username: req.body.username,
       },
+      registered: false,
       errors: {
         common: {
           msg: error.message,
@@ -85,6 +134,8 @@ const logOut = async (req, res) => {
 
 module.exports = {
   getLogIN,
+  getRegister,
+  registerUser,
   login,
   logOut,
 };

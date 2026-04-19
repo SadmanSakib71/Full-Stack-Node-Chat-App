@@ -56,6 +56,24 @@ p.error {
   display: block !important;
 }
 
+p.form-success {
+  color: var(--green);
+  font-size: 1.3rem;
+  display: none;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 1.4rem;
+  color: var(--light);
+  margin-top: 0.5rem;
+}
+
+.auth-switch a {
+  color: var(--blue);
+  font-weight: 600;
+}
+
 .hide {
   display: none !important;
 }
@@ -712,6 +730,16 @@ input[type="submit"]:active {
   #left-column {
     display: none;
   }
+}
+
+#login-container.register-page {
+  height: auto;
+  min-height: calc(100vh - 70px);
+  padding-bottom: 2rem;
+}
+
+#login-container.register-page input[type="submit"] {
+  margin-top: 1rem;
 }
 
 /* user list related styles */

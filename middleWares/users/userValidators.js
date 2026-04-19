@@ -84,4 +84,37 @@ const addUserValidationHandler = (req, res, next) => {
   }
 };
 
-module.exports = { addUserValidator, addUserValidationHandler };
+// same validation as addUser, but re-render the public register page (HTML)
+const addUserValidationHtmlHandler = (req, res, next) => {
+  const errors = validationResult(req);
+  const mappedErrors = errors.mapped();
+
+  if (Object.keys(mappedErrors).length === 0) {
+    next();
+  } else {
+    if (req.files && req.files.length > 0) {
+      const fileName = req.files[0].filename;
+      unlink(
+        path.join(__dirname, "../../public/uploads/avatars", fileName),
+        (err) => {
+          if (err) console.log(err);
+        },
+      );
+    }
+
+    res.render("register", {
+      data: {
+        name: req.body.name || "",
+        email: req.body.email || "",
+        mobile: req.body.mobile || "",
+      },
+      errors: mappedErrors,
+    });
+  }
+};
+
+module.exports = {
+  addUserValidator,
+  addUserValidationHandler,
+  addUserValidationHtmlHandler,
+};

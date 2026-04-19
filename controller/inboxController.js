@@ -166,14 +166,40 @@ async function getMessages(req, res, next) {
       conversation_id: req.params.conversation_id,
     }).sort("-createdAt");
 
-    const { participant } = await Conversation.findById(
+    const conversation = await Conversation.findById(
       req.params.conversation_id,
     );
+
+    if (!conversation) {
+      return res.status(404).json({
+        errors: {
+          common: {
+            msg: "Conversation not found",
+          },
+        },
+      });
+    }
+
+    const userId = String(req.user.userid);
+    const isCreator = String(conversation.creator.id) === userId;
+    const isParticipant = String(conversation.participant.id) === userId;
+
+    if (!isCreator && !isParticipant) {
+      return res.status(403).json({
+        errors: {
+          common: {
+            msg: "You are not part of this conversation",
+          },
+        },
+      });
+    }
+
+    const partner = isCreator ? conversation.participant : conversation.creator;
 
     res.status(200).json({
       data: {
         messages: messages,
-        participant,
+        participant: partner,
       },
       user: req.user.userid,
       conversation_id: req.params.conversation_id,
