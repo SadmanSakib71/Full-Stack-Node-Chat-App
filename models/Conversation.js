@@ -23,6 +23,9 @@ const conversationSchema = mongoose.Schema(
   },
 );
 
+conversationSchema.index({ "creator.id": 1 });
+conversationSchema.index({ "participant.id": 1 });
+
 const Conversation =
   mongoose.models.Conversation ||
   mongoose.model("Conversation", conversationSchema);
