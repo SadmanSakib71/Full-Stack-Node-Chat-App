@@ -420,12 +420,25 @@ input[type="submit"]:active {
   padding: 0 20px;
 }
 
-#chat-title > img {
-  cursor: pointer;
-  height: 30px;
+#chat-title.chat-title--no-selection {
+  grid-template-columns: 1fr;
 }
 
-#chat-title > img:hover {
+#delete-conversation-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  height: 30px;
+  justify-self: end;
+}
+
+#delete-conversation-btn img {
+  height: 30px;
+  display: block;
+}
+
+#delete-conversation-btn:hover img {
   transform: scale(1.05);
 }
 

@@ -8,6 +8,7 @@ const {
   addConversation,
   getMessages,
   sendMessage,
+  deleteConversation,
 } = require("../controller/inboxController");
 const decorateHtmlResponse = require("../middlewares/common/decorateHtmlResponse");
 const { checkLogin } = require("../middlewares/common/checkLogin");
@@ -26,6 +27,9 @@ router.post("/conversation", checkLogin, addConversation);
 
 // get messages of a conversation
 router.get("/messages/:conversation_id", checkLogin, getMessages);
+
+// delete conversation and related messages
+router.delete("/:conversationId", checkLogin, deleteConversation);
 
 // send message
 router.post("/message", checkLogin, attachmentUpload, sendMessage);

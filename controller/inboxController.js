@@ -1,5 +1,6 @@
 // external imports
 const createError = require("http-errors");
+const mongoose = require("mongoose");
 // internal imports
 const User = require("../models/People");
 const Conversation = require("../models/Conversation");
@@ -196,10 +197,70 @@ async function sendMessage(req, res, next) {
   }
 }
 
+// delete conversation and its messages
+async function deleteConversation(req, res, next) {
+  try {
+    const { conversationId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(conversationId)) {
+      return res.status(400).json({
+        errors: {
+          common: {
+            msg: "Invalid conversation id",
+          },
+        },
+      });
+    }
+
+    const conversation = await Conversation.findById(conversationId);
+
+    if (!conversation) {
+      return res.status(404).json({
+        errors: {
+          common: {
+            msg: "Conversation not found",
+          },
+        },
+      });
+    }
+
+    const userId = String(req.user.userid);
+    const isCreator = String(conversation.creator?.id ?? "") === userId;
+    const isParticipant =
+      String(conversation.participant?.id ?? "") === userId;
+
+    if (!isCreator && !isParticipant) {
+      return res.status(403).json({
+        errors: {
+          common: {
+            msg: "You are not allowed to delete this conversation",
+          },
+        },
+      });
+    }
+
+    await Message.deleteMany({ conversation_id: conversationId });
+    await Conversation.findByIdAndDelete(conversationId);
+
+    res.status(200).json({
+      message: "Conversation deleted successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      errors: {
+        common: {
+          msg: err.message || "Unknown error occurred!",
+        },
+      },
+    });
+  }
+}
+
 module.exports = {
   getInbox,
   searchUser,
   addConversation,
   getMessages,
   sendMessage,
+  deleteConversation,
 };
