@@ -1,4 +1,5 @@
 // external imports
+const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
 const createError = require("http-errors");
@@ -16,6 +17,7 @@ function uploader(
   // define the storage
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+      fs.mkdirSync(UPLOADS_FOLDER, { recursive: true });
       cb(null, UPLOADS_FOLDER);
     },
     filename: (req, file, cb) => {
@@ -38,20 +40,13 @@ function uploader(
     storage: storage,
     limits: {
       fileSize: max_file_size,
+      files: max_number_of_files,
     },
     fileFilter: (req, file, cb) => {
-      if (req.files.length > max_number_of_files) {
-        cb(
-          createError(
-            `Maximum ${max_number_of_files} files are allowed to upload!`,
-          ),
-        );
+      if (allowed_file_types.includes(file.mimetype)) {
+        cb(null, true);
       } else {
-        if (allowed_file_types.includes(file.mimetype)) {
-          cb(null, true);
-        } else {
-          cb(createError(error_msg));
-        }
+        cb(createError(error_msg));
       }
     },
   });

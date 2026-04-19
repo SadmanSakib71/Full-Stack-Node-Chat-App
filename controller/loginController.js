@@ -28,9 +28,11 @@ const login = async (req, res, next) => {
       if (isValidPassword) {
         // prepare the user object to generate token
         const userObject = {
+          userid: user._id.toString(),
           username: user.name,
           mobile: user.mobile,
           email: user.email,
+          avatar: user.avatar || null,
           role: "user",
         };
 

@@ -447,10 +447,6 @@ input[type="submit"]:active {
   display: grid;
 }
 
-.message-content img {
-  width: 32px;
-}
-
 .you-message {
   justify-content: end;
 }
@@ -466,13 +462,30 @@ input[type="submit"]:active {
 }
 
 .other-message .message-content {
-  grid-template-columns: 48px 1fr 1fr;
+  grid-template-columns: 48px minmax(0, 1fr);
   grid-column-gap: 15px;
+  align-items: start;
 }
 
-.message-row img:first-of-type {
+/* Stack text, attachments, and time in one column beside the avatar */
+.other-message .message-content > .message-text,
+.other-message .message-content > .attachments,
+.other-message .message-content > .message-time {
+  grid-column: 2;
+}
+
+/* Only direct child avatars — attachment images live under .attachments */
+.message-content > .message-avatar {
+  width: 32px;
+  height: 32px;
   border-radius: 100%;
-  grid-row: span 2;
+  object-fit: cover;
+}
+
+.other-message .message-content > .message-avatar {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  align-self: start;
 }
 
 .message-text {
@@ -498,6 +511,48 @@ input[type="submit"]:active {
   color: #111;
   border: 2px solid var(--dark);
   border-radius: 14px 14px 0 14px;
+}
+
+/* Shared images / attachments — must not inherit avatar sizing (32px circle) */
+.attachments {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: min(320px, 100%);
+  margin-bottom: 4px;
+}
+
+.other-message .attachments {
+  align-items: flex-start;
+}
+
+.attachments .attachment-link {
+  display: block;
+  max-width: min(280px, 85vw);
+  line-height: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid var(--dark);
+  background: var(--secondary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.attachments .attachment-image {
+  width: 100%;
+  max-width: min(280px, 85vw);
+  height: auto;
+  max-height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+.you-message .attachments .attachment-link {
+  border-radius: 14px 14px 0 14px;
+}
+
+.other-message .attachments .attachment-link {
+  border-radius: 14px 14px 14px 0;
 }
 
 #chat-form {
