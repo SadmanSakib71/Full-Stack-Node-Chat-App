@@ -132,6 +132,19 @@ async function addConversation(req, res, next) {
     });
 
     const result = await newConversation.save();
+
+    const conversationPayload = {
+      _id: result._id,
+      creator: result.creator,
+      participant: result.participant,
+      last_updated: result.last_updated,
+    };
+
+    global.io
+      .to(String(req.user.userid))
+      .to(String(participantId))
+      .emit("new_conversation", { conversation: conversationPayload });
+
     res.status(200).json({
       message: "Conversation was added successfully!",
     });
@@ -209,8 +222,10 @@ async function sendMessage(req, res, next) {
 
       const result = await newMessage.save();
 
-      // emit socket event
-      global.io.emit("new_message", {
+      const senderId = String(req.user.userid);
+      const receiverId = String(req.body.receiverId);
+
+      global.io.to(senderId).to(receiverId).emit("new_message", {
         message: {
           conversation_id: req.body.conversationId,
           sender: {

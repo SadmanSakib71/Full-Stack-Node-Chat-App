@@ -216,8 +216,50 @@
         }
       });
 
-      // socket initialization
-      const socket = io('<%= process.env.APP_URL %>');
+      // socket initialization — join a per-user room so events are not broadcast globally
+      const socket = io('<%= process.env.APP_URL %>', {
+        query: { userId: loggedinUserId },
+      });
+
+      socket.on("new_conversation", (data) => {
+        if (!data || !data.conversation) return;
+        const c = data.conversation;
+        const convId = String(c._id);
+        if (document.querySelector('.conversation[data-conversation-id="' + convId + '"]')) {
+          return;
+        }
+
+        const isCreator = String(c.creator.id) === String(loggedinUserId);
+        const partner = isCreator ? c.participant : c.creator;
+        const avatarUrl = partner.avatar
+          ? "./uploads/avatars/" + partner.avatar
+          : "./images/nophoto.png";
+        const dateStr = moment(c.last_updated).fromNow();
+
+        const row = document.createElement("div");
+        row.className = "conversation";
+        row.setAttribute("data-conversation-id", convId);
+        row.onclick = function () {
+          getMessages(convId, partner.name);
+        };
+        row.innerHTML =
+          '<img src="' +
+          avatarUrl +
+          '" alt="' +
+          escapeHtml(partner.name) +
+          '" />' +
+          '<div class="title-text">' +
+          escapeHtml(partner.name) +
+          "</div>" +
+          '<div class="conversation-date">' +
+          escapeHtml(dateStr) +
+          "</div>";
+
+        const list = document.querySelector("#conversation-list");
+        const nothing = list.querySelector(".nothing");
+        if (nothing) nothing.remove();
+        list.insertBefore(row, list.firstChild);
+      });
 
       // handle new/live incoming message from socket
       socket.on("new_message", data => {

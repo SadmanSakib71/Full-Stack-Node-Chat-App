@@ -26,6 +26,14 @@ dotenv.config();
 const io = require("socket.io")(server);
 global.io = io;
 
+io.on("connection", (socket) => {
+  const raw = socket.handshake.query.userId;
+  const userId = Array.isArray(raw) ? raw[0] : raw;
+  if (userId) {
+    socket.join(String(userId));
+  }
+});
+
 // set comment as app locals
 app.locals.moment = moment;
 
