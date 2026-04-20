@@ -34,11 +34,13 @@ const registerUser = async (req, res, next) => {
         ...req.body,
         password: hashedPassword,
         avatar: req.files[0].filename,
+        role: "user",
       });
     } else {
       newUser = new User({
         ...req.body,
         password: hashedPassword,
+        role: "user",
       });
     }
 

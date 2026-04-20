@@ -21,16 +21,19 @@ const addUser = async (req, res, next) => {
   try {
     let newUser;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const userRole = req.body.role === "admin" ? "admin" : "user";
     if (req.files && req.files.length > 0) {
       newUser = new User({
         ...req.body,
         password: hashedPassword,
         avatar: req.files[0].filename,
+        role: userRole,
       });
     } else {
       newUser = new User({
         ...req.body,
         password: hashedPassword,
+        role: userRole,
       });
     }
 

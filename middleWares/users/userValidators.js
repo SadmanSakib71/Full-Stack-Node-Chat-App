@@ -56,6 +56,12 @@ const addUserValidator = [
     .withMessage(
       "Password must be at least 8 characters long & should contain at least 1 lowercase, 1 uppercase, 1 number & 1 symbol",
     ),
+
+  // role validator (optional, for admin-created users)
+  check("role")
+    .optional()
+    .isIn(["admin", "user"])
+    .withMessage("Role must be either admin or user"),
 ];
 
 //validation handler

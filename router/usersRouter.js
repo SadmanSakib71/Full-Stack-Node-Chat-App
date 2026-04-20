@@ -25,6 +25,8 @@ router.get(
 //add user
 router.post(
   "/",
+  checkLogin,
+  requireRole(["admin"]),
   avatarUpload,
   addUserValidator,
   addUserValidationHandler,
@@ -32,6 +34,6 @@ router.post(
 );
 
 //remove user
-router.delete("/:id", removeUser);
+router.delete("/:id", checkLogin, requireRole(["admin"]), removeUser);
 
 module.exports = router;
