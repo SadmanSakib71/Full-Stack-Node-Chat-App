@@ -116,7 +116,7 @@ const login = async (req, res, next) => {
   } catch (error) {
     res.render("login", {
       data: {
-        username: req.body.username,
+        username: req.body?.username ?? "",
       },
       registered: false,
       errors: {

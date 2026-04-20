@@ -17,7 +17,7 @@ const doLoginValidationHandler = function (req, res, next) {
   } else {
     res.render("login", {
       data: {
-        username: req.body.username,
+        username: req.body?.username ?? "",
       },
       registered: false,
       errors: mappedErrors,
