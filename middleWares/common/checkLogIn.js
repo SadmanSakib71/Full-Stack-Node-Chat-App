@@ -75,4 +75,5 @@ function requireRole(role) {
 module.exports = {
   checkLogin,
   redirectLoggedIn,
+  requireRole,
 };

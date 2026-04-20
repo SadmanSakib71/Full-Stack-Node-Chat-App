@@ -81,7 +81,7 @@ const login = async (req, res, next) => {
           mobile: user.mobile,
           email: user.email,
           avatar: user.avatar || null,
-          role: "user",
+          role: user.role || "user",
         };
 
         //generate token
