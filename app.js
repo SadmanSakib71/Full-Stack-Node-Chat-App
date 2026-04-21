@@ -20,7 +20,8 @@ const {
 
 const app = express();
 const server = http.createServer(app);
-dotenv.config();
+// Do not override env vars already set by the host (e.g. Railway)
+dotenv.config({ override: false });
 
 // socket creation
 const io = require("socket.io")(server);
@@ -37,16 +38,25 @@ io.on("connection", (socket) => {
 // set comment as app locals
 app.locals.moment = moment;
 
-// database connection (Railway Mongo exposes MONGO_URL; local .env may use MongoDb_Connection)
-const mongoUri = process.env.MONGO_URL;
-mongoose
-  .connect(mongoUri)
-  .then(() => {
-    console.log("Connected with database successfully");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// database connection — Railway Mongo uses MONGO_URL; your .env may use MongoDb_Connection
+const mongoUri =
+  process.env.MongoDb_Connection ||
+  process.env.MONGO_URL ||
+  process.env.DATABASE_URL;
+if (!mongoUri) {
+  console.error(
+    "Missing MongoDB URI: set MongoDb_Connection, MONGO_URL, or DATABASE_URL on the app service (or in .env for local dev).",
+  );
+} else {
+  mongoose
+    .connect(mongoUri)
+    .then(() => {
+      console.log("Connected with database successfully");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
 // request parsers
 app.use(express.json());
