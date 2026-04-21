@@ -72,6 +72,7 @@ app.use(notFoundHandler);
 // common error handler
 app.use(errorHandler);
 
-server.listen(process.env.PORT, () => {
-  console.log(`app listening to port ${process.env.PORT}`);
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+  console.log(`app listening to port ${port}`);
 });
