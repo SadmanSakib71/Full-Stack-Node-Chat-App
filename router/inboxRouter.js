@@ -10,9 +10,9 @@ const {
   sendMessage,
   deleteConversation,
 } = require("../controller/inboxController");
-const decorateHtmlResponse = require("../middlewares/common/decorateHtmlResponse");
-const { checkLogin } = require("../middlewares/common/checkLogin");
-const attachmentUpload = require("../middlewares/inbox/attachmentUpload");
+const decorateHtmlResponse = require("../middleWares/common/decorateHtmlResponse");
+const { checkLogin } = require("../middleWares/common/checkLogIn");
+const attachmentUpload = require("../middleWares/inbox/attachmentUpload");
 
 const router = express.Router();
 

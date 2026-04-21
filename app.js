@@ -16,7 +16,7 @@ const inboxRouter = require("./router/inboxRouter");
 const {
   notFoundHandler,
   errorHandler,
-} = require("./middlewares/common/errorHandler");
+} = require("./middleWares/common/errorHandler");
 
 const app = express();
 const server = http.createServer(app);
@@ -72,7 +72,8 @@ app.use(notFoundHandler);
 // common error handler
 app.use(errorHandler);
 
-const port = process.env.PORT || 3000;
-server.listen(port, () => {
-  console.log(`app listening to port ${port}`);
+const port = Number(process.env.PORT) || 3000;
+const host = process.env.HOST || "0.0.0.0";
+server.listen(port, host, () => {
+  console.log(`app listening on ${host}:${port}`);
 });
