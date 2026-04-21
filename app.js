@@ -37,10 +37,10 @@ io.on("connection", (socket) => {
 // set comment as app locals
 app.locals.moment = moment;
 
-// database connection
-//connect with database
+// database connection (Railway Mongo exposes MONGO_URL; local .env may use MongoDb_Connection)
+const mongoUri = process.env.MONGO_URL;
 mongoose
-  .connect(process.env.MongoDb_Connection)
+  .connect(mongoUri)
   .then(() => {
     console.log("Connected with database successfully");
   })
