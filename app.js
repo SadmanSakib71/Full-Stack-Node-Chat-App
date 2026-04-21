@@ -16,12 +16,11 @@ const inboxRouter = require("./router/inboxRouter");
 const {
   notFoundHandler,
   errorHandler,
-} = require("./middleWares/common/errorHandler");
+} = require("./middlewares/common/errorHandler");
 
 const app = express();
 const server = http.createServer(app);
-// Do not override env vars already set by the host (e.g. Railway)
-dotenv.config({ override: false });
+dotenv.config();
 
 // socket creation
 const io = require("socket.io")(server);
@@ -38,25 +37,16 @@ io.on("connection", (socket) => {
 // set comment as app locals
 app.locals.moment = moment;
 
-// database connection — Railway Mongo uses MONGO_URL; your .env may use MongoDb_Connection
-const mongoUri =
-  process.env.MongoDb_Connection ||
-  process.env.MONGO_URL ||
-  process.env.DATABASE_URL;
-if (!mongoUri) {
-  console.error(
-    "Missing MongoDB URI: set MongoDb_Connection, MONGO_URL, or DATABASE_URL on the app service (or in .env for local dev).",
-  );
-} else {
-  mongoose
-    .connect(mongoUri)
-    .then(() => {
-      console.log("Connected with database successfully");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
+// database connection
+//connect with database
+mongoose
+  .connect(process.env.MongoDb_Connection)
+  .then(() => {
+    console.log("Connected with database successfully");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 // request parsers
 app.use(express.json());
@@ -82,8 +72,7 @@ app.use(notFoundHandler);
 // common error handler
 app.use(errorHandler);
 
-const port = Number(process.env.PORT) || 3000;
-const host = process.env.HOST || "0.0.0.0";
-server.listen(port, host, () => {
-  console.log(`app listening on ${host}:${port}`);
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+  console.log(`app listening to port ${port}`);
 });
