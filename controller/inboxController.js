@@ -2,7 +2,7 @@
 const createError = require("http-errors");
 const mongoose = require("mongoose");
 // internal imports
-const User = require("../models/People");
+const User = require("../models/people");
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
 const escape = require("../utilities/escape");
