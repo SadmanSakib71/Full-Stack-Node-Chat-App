@@ -41,46 +41,6 @@ A real-time chat application built with Node.js, Express, MongoDB (Mongoose), EJ
 - npm
 - MongoDB instance (local or cloud)
 
-## Installation
-
-1. Clone the repository:
-
-```bash
-git clone <your-repository-url>
-cd Full-Stack-Node-Chat-App
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Create a `.env` file in the project root and add required variables (see below).
-
-4. Start the app in development mode:
-
-```bash
-npm start
-```
-
-The server runs on `http://localhost:3000` by default unless `PORT` is set.
-
-## Environment Variables
-
-Create a `.env` file in the root with:
-
-```env
-PORT=3000
-NODE_ENV=development
-MongoDb_Connection=mongodb://localhost:27017/chat_app
-
-COOKIE_SECRET=your_cookie_secret
-COOKIE_NAME=your_cookie_name
-
-JWT_SECRET=your_jwt_secret
-JWT_secret=your_jwt_secret
-JWT_EXPIRY=86400000
 ```
 
 Notes:
@@ -138,3 +98,4 @@ Clients join a room using the authenticated `userId` passed during socket handsh
 ## License
 
 ISC
+```
